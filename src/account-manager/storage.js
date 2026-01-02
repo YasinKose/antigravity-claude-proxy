@@ -28,7 +28,10 @@ export async function loadAccounts(configPath = ACCOUNT_CONFIG_PATH) {
             ...acc,
             isRateLimited: acc.isRateLimited || false,
             rateLimitResetTime: acc.rateLimitResetTime || null,
-            lastUsed: acc.lastUsed || null
+            lastUsed: acc.lastUsed || null,
+            // Reset invalid flag on startup - give accounts a fresh chance to refresh
+            isInvalid: false,
+            invalidReason: null
         }));
 
         const settings = config.settings || {};

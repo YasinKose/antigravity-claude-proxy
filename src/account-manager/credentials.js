@@ -123,14 +123,20 @@ export async function discoverProject(token) {
                 })
             });
 
-            if (!response.ok) continue;
+            if (!response.ok) {
+                const errorText = await response.text();
+                logger.warn(`[AccountManager] Project discovery failed at ${endpoint}: ${response.status} - ${errorText}`);
+                continue;
+            }
 
             const data = await response.json();
 
             if (typeof data.cloudaicompanionProject === 'string') {
+                logger.success(`[AccountManager] Discovered project: ${data.cloudaicompanionProject}`);
                 return data.cloudaicompanionProject;
             }
             if (data.cloudaicompanionProject?.id) {
+                logger.success(`[AccountManager] Discovered project: ${data.cloudaicompanionProject.id}`);
                 return data.cloudaicompanionProject.id;
             }
         } catch (error) {
@@ -138,7 +144,8 @@ export async function discoverProject(token) {
         }
     }
 
-    logger.info(`[AccountManager] Using default project: ${DEFAULT_PROJECT_ID}`);
+    logger.warn(`[AccountManager] Project discovery failed for all endpoints. Using default project: ${DEFAULT_PROJECT_ID}`);
+    logger.warn(`[AccountManager] If you see 404 errors, your account may not have Gemini Code Assist enabled.`);
     return DEFAULT_PROJECT_ID;
 }
 
