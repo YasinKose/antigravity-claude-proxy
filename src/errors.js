@@ -119,6 +119,23 @@ export class ApiError extends AntigravityError {
 }
 
 /**
+ * Native module error (version mismatch, rebuild required)
+ */
+export class NativeModuleError extends AntigravityError {
+    /**
+     * @param {string} message - Error message
+     * @param {boolean} rebuildSucceeded - Whether auto-rebuild succeeded
+     * @param {boolean} restartRequired - Whether server restart is needed
+     */
+    constructor(message, rebuildSucceeded = false, restartRequired = false) {
+        super(message, 'NATIVE_MODULE_ERROR', false, { rebuildSucceeded, restartRequired });
+        this.name = 'NativeModuleError';
+        this.rebuildSucceeded = rebuildSucceeded;
+        this.restartRequired = restartRequired;
+    }
+}
+
+/**
  * Check if an error is a rate limit error
  * Works with both custom error classes and legacy string-based errors
  * @param {Error} error - Error to check
@@ -154,6 +171,7 @@ export default {
     NoAccountsError,
     MaxRetriesError,
     ApiError,
+    NativeModuleError,
     isRateLimitError,
     isAuthError
 };
