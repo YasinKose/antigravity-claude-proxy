@@ -162,7 +162,8 @@ Add this configuration:
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-5-thinking",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-5-thinking",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-2.5-flash-lite",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-4-5-thinking"
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-4-5-thinking",
+    "ENABLE_EXPERIMENTAL_MCP_CLI": "true"
   }
 }
 ```
@@ -180,7 +181,8 @@ Or to use Gemini models:
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "gemini-3-pro-high",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "gemini-3-flash",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-2.5-flash-lite",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "gemini-3-flash"
+    "CLAUDE_CODE_SUBAGENT_MODEL": "gemini-3-flash",
+    "ENABLE_EXPERIMENTAL_MCP_CLI": "true"
   }
 }
 ```
