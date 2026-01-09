@@ -210,10 +210,11 @@ export function convertAnthropicToGoogle(anthropicRequest) {
             // Sanitize schema for general compatibility
             let parameters = sanitizeSchema(schema);
 
-            // For Gemini models, apply additional cleaning for VALIDATED mode
-            if (isGeminiModel) {
-                parameters = cleanSchemaForGemini(parameters);
-            }
+            // Apply Google-format cleaning for ALL models since they all go through
+            // Cloud Code API which validates schemas using Google's protobuf format.
+            // This fixes issue #82: /compact command fails with schema transformation error
+            // "Proto field is not repeating, cannot start list" for Claude models.
+            parameters = cleanSchemaForGemini(parameters);
 
             return {
                 name: String(name).replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64),

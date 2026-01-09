@@ -565,6 +565,27 @@ export function sanitizeSchema(schema) {
 }
 
 /**
+ * Convert JSON Schema type names to Google's Protobuf-style uppercase type names.
+ * Google's Generative AI API expects uppercase types: STRING, OBJECT, ARRAY, etc.
+ *
+ * @param {string} type - JSON Schema type name (lowercase)
+ * @returns {string} Google-format type name (uppercase)
+ */
+function toGoogleType(type) {
+    if (!type || typeof type !== 'string') return type;
+    const typeMap = {
+        'string': 'STRING',
+        'number': 'NUMBER',
+        'integer': 'INTEGER',
+        'boolean': 'BOOLEAN',
+        'array': 'ARRAY',
+        'object': 'OBJECT',
+        'null': 'STRING'  // Fallback for null type
+    };
+    return typeMap[type.toLowerCase()] || type.toUpperCase();
+}
+
+/**
  * Cleans JSON schema for Gemini API compatibility.
  * Uses a multi-phase pipeline matching opencode-antigravity-auth approach.
  *
@@ -640,6 +661,12 @@ export function cleanSchemaForGemini(schema) {
         if (result.required.length === 0) {
             delete result.required;
         }
+    }
+
+    // Phase 5: Convert type to Google's uppercase format (STRING, OBJECT, ARRAY, etc.)
+    // Only convert at current level - nested types already converted by recursive cleanSchemaForGemini calls
+    if (result.type && typeof result.type === 'string') {
+        result.type = toGoogleType(result.type);
     }
 
     return result;
