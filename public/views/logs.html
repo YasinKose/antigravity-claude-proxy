@@ -51,7 +51,7 @@
             <label class="cursor-pointer flex items-center gap-2">
                 <span class="text-[10px] font-mono text-gray-500 uppercase hidden sm:inline-block"
                     x-text="$store.global.t('autoScroll')">Auto-Scroll</span>
-                <input type="checkbox" class="toggle toggle-xs toggle-success" x-model="isAutoScroll" :title="$store.global.t('autoScroll')">
+                <input type="checkbox" class="toggle toggle-xs toggle-success" x-model="isAutoScroll">
             </label>
             <button class="btn-action-ghost-square" @click="clearLogs" :title="$store.global.t('clearLogs')">
                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
